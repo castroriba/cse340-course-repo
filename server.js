@@ -1,3 +1,4 @@
+import { getCategories } from './src/models/categories.js';
 import express from 'express';
 import dotenv from 'dotenv';
 
@@ -29,9 +30,18 @@ app.get('/projects', (req, res) => {
   res.render('projects', { title });
 });
 
-app.get('/categories', (req, res) => {
-  const title = 'Categories';
-  res.render('categories', { title });
+// Updated /categories route
+app.get('/categories', async (req, res) => {
+  try {
+    const categories = await getCategories();
+    res.render('categories', { 
+      title: 'Categories', 
+      categories 
+    });
+  } catch (err) {
+    console.error('Error fetching categories:', err);
+    res.status(500).send('Server Error');
+  }
 });
 
 app.listen(port, host, () => {
