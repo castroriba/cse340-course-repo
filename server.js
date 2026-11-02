@@ -5,6 +5,7 @@ dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+const host = '0.0.0.0';
 
 // Serve static files from 'public' directory
 app.use(express.static('public'));
@@ -33,6 +34,6 @@ app.get('/categories', (req, res) => {
   res.render('categories', { title });
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(port, host, () => {
+  console.log(`Server running at http://${host}:${port}`);
 });
