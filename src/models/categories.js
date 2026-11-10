@@ -1,10 +1,14 @@
-import pool from '../db.js'; // Adjust path if your database pool file is located elsewhere
+import db from '../db.js';
 
 /**
- * Retrieves all categories from the database.
+ * Get all categories from the database.
  */
 export async function getCategories() {
-    const sql = 'SELECT * FROM categories ORDER BY category_name ASC;';
-    const result = await pool.query(sql);
+    const query = `
+        SELECT category_id, name 
+        FROM categories 
+        ORDER BY name ASC;
+    `;
+    const result = await db.query(query);
     return result.rows;
 }
