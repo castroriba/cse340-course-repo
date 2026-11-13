@@ -4,11 +4,12 @@ DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS organizations;
 
--- 1. Create Organizations Table
+-- 1. Create Organizations Table (Includes contact_email)
 CREATE TABLE organizations (
     organization_id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
+    contact_email VARCHAR(150) NOT NULL,
     logo_url VARCHAR(255)
 );
 
@@ -35,11 +36,11 @@ CREATE TABLE project_categories (
     PRIMARY KEY (project_id, category_id)
 );
 
--- Seed Organizations (At least 3)
-INSERT INTO organizations (name, description, logo_url) VALUES
-('Eco Action', 'Environmental conservation and park restoration.', '/images/org1.svg'),
-('Edu Alliance', 'STEM education and youth mentoring.', '/images/org2.svg'),
-('Care Center', 'Community food distribution and shelter support.', '/images/org3.svg');
+-- Seed Organizations (At least 3, with contact_email)
+INSERT INTO organizations (name, description, contact_email, logo_url) VALUES
+('Eco Action', 'Environmental conservation and park restoration.', 'contact@ecoaction.org', '/images/org1.svg'),
+('Edu Alliance', 'STEM education and youth mentoring.', 'info@edualliance.org', '/images/org2.svg'),
+('Care Center', 'Community food distribution and shelter support.', 'support@carecenter.org', '/images/org3.svg');
 
 -- Seed Service Projects (At least 5 per organization = 15 total)
 INSERT INTO projects (organization_id, title, description, location, project_date) VALUES

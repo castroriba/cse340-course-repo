@@ -3,7 +3,7 @@ import db from '../db.js';
 /**
  * Get all categories from the database.
  */
-export async function getCategories() {
+export const getCategories = async () => {
     const query = `
         SELECT category_id, name 
         FROM categories 
@@ -11,4 +11,4 @@ export async function getCategories() {
     `;
     const result = await db.query(query);
     return result.rows;
-}
+};
