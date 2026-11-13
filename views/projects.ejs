@@ -4,11 +4,22 @@
     <h2>Service Projects</h2>
     <p>Explore current volunteer initiatives:</p>
 
-    <ul class="projects-list" style="margin-top: 20px; line-height: 1.8;">
-        <li><strong>Tree Planting Drive:</strong> Partnered with Eco Action to plant 500 trees in local parks.</li>
-        <li><strong>After-School Tutoring:</strong> Supported by Edu Alliance to provide STEM mentoring.</li>
-        <li><strong>Food Bank Outreach:</strong> Organized with Care Center to distribute weekly groceries.</li>
-    </ul>
+    <% if (projects && projects.length > 0) { %>
+        <ul class="projects-list" style="margin-top: 20px; line-height: 1.8;">
+            <% projects.forEach(project => { %>
+                <li style="margin-bottom: 12px;">
+                    <strong><%= project.title %></strong> — <%= project.description %><br>
+                    <small>
+                        <strong>Organization:</strong> <%= project.organization_name %> | 
+                        <strong>Location:</strong> <%= project.location %> | 
+                        <strong>Date:</strong> <%= new Date(project.project_date).toLocaleDateString() %>
+                    </small>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No service projects found.</p>
+    <% } %>
 </div>
 
 <%- include('partials/footer') %>

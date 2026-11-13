@@ -6,7 +6,7 @@
     <ul class="category-list">
         <% if (categories && categories.length > 0) { %>
             <% categories.forEach(category => { %>
-                <li><%= category.category_name %></li>
+                <li><%= category.name %></li>
             <% }); %>
         <% } else { %>
             <p>No categories found.</p>
