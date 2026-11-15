@@ -1,7 +1,7 @@
 const showHomePage = async (req, res, next) => {
     try {
         const title = 'Home';
-        res.render('home', { title });
+        res.render('index', { title });
     } catch (err) {
         next(err);
     }
