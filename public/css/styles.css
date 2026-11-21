@@ -93,6 +93,75 @@ h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Flash Notifications */
+.flash {
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.flash.success {
+    background-color: #dcfce7;
+    color: #166534;
+    border-color: #86efac;
+}
+
+.flash.error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+/* Forms */
+form {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 600px;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    padding: 0.65rem 1.25rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--secondary-color);
+}
+
 .site-footer {
     background-color: var(--primary-color);
     color: #ffffff;

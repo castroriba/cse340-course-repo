@@ -21,3 +21,12 @@
         </div>
     </header>
     <main class="container">
+        <% if (locals.flash) { %>
+            <% Object.keys(flash).forEach(type => { %>
+                <% flash[type].forEach(message => { %>
+                    <div class="flash <%= type %>">
+                        <%= message %>
+                    </div>
+                <% }) %>
+            <% }) %>
+        <% } %>

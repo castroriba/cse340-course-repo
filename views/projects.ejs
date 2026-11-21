@@ -3,12 +3,13 @@
 <div class="container">
     <h2>Service Projects</h2>
     <p>Explore current volunteer initiatives:</p>
+    <p><a href="/new-project">+ Add a New Service Project</a></p>
 
     <% if (projects && projects.length > 0) { %>
         <ul class="projects-list" style="margin-top: 20px; line-height: 1.8;">
             <% projects.forEach(project => { %>
                 <li style="margin-bottom: 12px;">
-                    <strong><%= project.title %></strong> — <%= project.description %><br>
+                    <strong><a href="/project/<%= project.project_id %>"><%= project.title %></a></strong> — <%= project.description %><br>
                     <small>
                         <strong>Organization:</strong> <%= project.organization_name %> | 
                         <strong>Location:</strong> <%= project.location %> | 

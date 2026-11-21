@@ -3,6 +3,7 @@
 <div class="container">
     <h2>Organizations</h2>
     <p>Here are the participating community organizations:</p>
+    <p><a href="/new-organization">+ Add a New Organization</a></p>
 
     <div class="org-list" style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
         <% if (organizations && organizations.length > 0) { %>
@@ -11,7 +12,9 @@
                     <% if (org.logo_url) { %>
                         <img src="<%= org.logo_url %>" alt="<%= org.name %> Logo" style="width: 100px; height: 100px;">
                     <% } %>
-                    <h3 style="margin-top: 10px;"><%= org.name %></h3>
+                    <h3 style="margin-top: 10px;">
+                        <a href="/organization/<%= org.organization_id %>"><%= org.name %></a>
+                    </h3>
                     <p><%= org.description %></p>
                     <p><small>Contact: <a href="mailto:<%= org.contact_email %>"><%= org.contact_email %></a></small></p>
                 </div>
