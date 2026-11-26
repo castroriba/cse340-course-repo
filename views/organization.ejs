@@ -2,9 +2,12 @@
 
 <div class="container">
     <h2><%= organizationDetails.name %></h2>
-    <% if (organizationDetails.logo_url) { %>
-        <img src="<%= organizationDetails.logo_url %>" alt="<%= organizationDetails.name %> Logo" style="width: 120px; height: 120px;">
-    <% } %>
+    <img
+        src="<%= organizationDetails.logo_url || '/images/placeholder-logo.svg' %>"
+        onerror="this.onerror=null; this.src='/images/placeholder-logo.svg';"
+        alt="<%= organizationDetails.name %> Logo"
+        style="width: 120px; height: 120px; object-fit: contain;"
+    >
     <p><%= organizationDetails.description %></p>
     <p><strong>Contact Email:</strong> <a href="mailto:<%= organizationDetails.contact_email %>"><%= organizationDetails.contact_email %></a></p>
 

@@ -7,6 +7,8 @@ import {
 } from '../models/organizations.js';
 import { getProjectsByOrganizationId } from '../models/projects.js';
 
+const PLACEHOLDER_LOGO = '/images/placeholder-logo.svg';
+
 // Server-side validation rules for creating/updating organizations
 const organizationValidation = [
     body('name')
@@ -74,7 +76,7 @@ const processNewOrganizationForm = async (req, res) => {
     }
 
     const { name, description, contactEmail } = req.body;
-    const logoFilename = '/images/placeholder-logo.png';
+    const logoFilename = PLACEHOLDER_LOGO;
 
     try {
         const organizationId = await createOrganization(name, description, contactEmail, logoFilename);
@@ -115,7 +117,8 @@ const processEditOrganizationForm = async (req, res) => {
         return res.redirect(`/edit-organization/${organizationId}`);
     }
 
-    const { name, description, contactEmail, logoFilename } = req.body;
+    const { name, description, contactEmail } = req.body;
+    const logoFilename = req.body.logoFilename?.trim() || PLACEHOLDER_LOGO;
 
     try {
         await updateOrganization(organizationId, name, description, contactEmail, logoFilename);
