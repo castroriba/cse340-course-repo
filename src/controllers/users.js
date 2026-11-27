@@ -1,4 +1,4 @@
-import { findUserByEmail, createUser, verifyPassword } from '../models/users.js';
+import { findUserByEmail, createUser, verifyPassword, getAllUsers } from '../models/users.js';
 
 export const showRegisterForm = (req, res) => {
   res.render('register', { title: 'Register' });
@@ -6,11 +6,12 @@ export const showRegisterForm = (req, res) => {
 
 export const processRegisterForm = async (req, res, next) => {
   try {
+    const name = req.body?.name?.trim();
     const email = req.body?.email?.trim();
     const password = req.body?.password;
 
-    if (!email || !password || password.length < 6) {
-      req.flash('error', 'Email and a password (at least 6 characters) are required.');
+    if (!name || !email || !password || password.length < 6) {
+      req.flash('error', 'Name, email, and a password (at least 6 characters) are required.');
       return res.redirect('/register');
     }
 
@@ -20,7 +21,7 @@ export const processRegisterForm = async (req, res, next) => {
       return res.redirect('/register');
     }
 
-    await createUser(email, password, 'user');
+    await createUser(name, email, password, 'user');
     req.flash('success', 'Registration successful! Please log in.');
     return res.redirect('/login');
   } catch (err) {
@@ -56,6 +57,7 @@ export const processLoginForm = async (req, res, next) => {
 
     req.session.user = {
       user_id: user.user_id,
+      name: user.name,
       email: user.email,
       role_name: user.role_name
     };
@@ -107,4 +109,13 @@ export const requireRole = (role) => {
 
     next();
   };
+};
+
+export const showUsersPage = async (req, res, next) => {
+  try {
+    const users = await getAllUsers();
+    res.render('users', { title: 'Users', users });
+  } catch (err) {
+    next(err);
+  }
 };

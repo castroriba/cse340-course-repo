@@ -6,7 +6,8 @@ import {
     showLoginForm,
     processLoginForm,
     logoutUser,
-    requireRole
+    requireRole,
+    showUsersPage
 } from './controllers/users.js';
 import {
     organizationValidation,
@@ -50,6 +51,9 @@ router.post('/register', processRegisterForm);
 router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
 router.get('/logout', logoutUser);
+
+// Admin user management route
+router.get('/users', requireRole('admin'), showUsersPage);
 
 // Organization routes
 router.get('/organizations', showOrganizationsPage);
