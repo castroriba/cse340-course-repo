@@ -15,6 +15,8 @@ const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 
+app.set('trust proxy', 1);
+
 // Parse incoming form data (req.body)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,10 +26,15 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
+  cookie: {
+    maxAge: 60 * 60 * 1000, // 1 hour
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: NODE_ENV === 'production'
+  }
 }));
 
-// Flash message middleware
+// Flash message & template locals middleware
 app.use((req, res, next) => {
   req.flash = (type, message) => {
     if (!req.session.flash) {
@@ -39,8 +46,16 @@ app.use((req, res, next) => {
     req.session.flash[type].push(message);
   };
 
-  res.locals.flash = req.session.flash || {};
-  delete req.session.flash;
+  const flashMessages = req.session?.flash || {};
+  if (req.session?.flash) {
+    delete req.session.flash;
+  }
+
+  res.locals.flash = flashMessages;
+  res.locals.messages = flashMessages;
+  res.locals.isLoggedIn = Boolean(req.session && req.session.user);
+  res.locals.user = (req.session && req.session.user) || null;
+  res.locals.NODE_ENV = NODE_ENV;
   next();
 });
 
@@ -50,15 +65,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// Pass session user, auth state, flash messages, and NODE_ENV to all templates
-app.use((req, res, next) => {
-  res.locals.isLoggedIn = Boolean(req.session && req.session.user);
-  res.locals.user = (req.session && req.session.user) || null;
-  res.locals.messages = res.locals.flash || {};
-  res.locals.NODE_ENV = NODE_ENV;
-  next();
-});
 
 // Use external router (all routes and controllers live in src/)
 app.use('/', router);

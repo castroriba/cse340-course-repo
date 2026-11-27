@@ -6,6 +6,9 @@
   <% if (typeof messages !== 'undefined' && messages.error && messages.error.length) { %>
     <p class="error"><%= messages.error[0] %></p>
   <% } %>
+  <% if (typeof messages !== 'undefined' && messages.success && messages.success.length) { %>
+    <p class="success"><%= messages.success[0] %></p>
+  <% } %>
 
   <form action="/register" method="POST">
     <div>
@@ -15,7 +18,7 @@
 
     <div>
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" required />
+      <input type="password" id="password" name="password" minlength="6" required />
     </div>
 
     <button type="submit">Register</button>
