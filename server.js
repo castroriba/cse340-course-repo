@@ -51,8 +51,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Pass NODE_ENV to all templates
+// Pass session user, auth state, flash messages, and NODE_ENV to all templates
 app.use((req, res, next) => {
+  res.locals.isLoggedIn = Boolean(req.session && req.session.user);
+  res.locals.user = (req.session && req.session.user) || null;
+  res.locals.messages = res.locals.flash || {};
   res.locals.NODE_ENV = NODE_ENV;
   next();
 });

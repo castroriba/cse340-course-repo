@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+
+<main>
+  <h1>Register</h1>
+
+  <% if (typeof messages !== 'undefined' && messages.error && messages.error.length) { %>
+    <p class="error"><%= messages.error[0] %></p>
+  <% } %>
+
+  <form action="/register" method="POST">
+    <div>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+    </div>
+
+    <div>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required />
+    </div>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="/login">Log in here</a>.</p>
+</main>
+
+<%- include('partials/footer') %>

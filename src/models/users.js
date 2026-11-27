@@ -1,0 +1,37 @@
+import bcrypt from 'bcrypt';
+import pool from './db.js';
+
+const SALT_ROUNDS = 10;
+
+// Find a user by email and include their role_name from roles
+export const findUserByEmail = async (email) => {
+    const query = `
+        SELECT u.user_id, u.email, u.password_hash, r.role_name
+        FROM users u
+        JOIN roles r ON u.role_id = r.role_id
+        WHERE u.email = $1
+    `;
+    const result = await pool.query(query, [email]);
+    return result.rows[0] || null;
+};
+
+// Create a new user with a hashed password and default 'user' role
+export const createUser = async (email, plainPassword, roleName = 'user') => {
+    const passwordHash = await bcrypt.hash(plainPassword, SALT_ROUNDS);
+    const query = `
+        INSERT INTO users (email, password_hash, role_id)
+        VALUES (
+            $1,
+            $2,
+            (SELECT role_id FROM roles WHERE role_name = $3)
+        )
+        RETURNING user_id, email, role_id
+    `;
+    const result = await pool.query(query, [email, passwordHash, roleName]);
+    return result.rows[0];
+};
+
+// Verify a plain-text password against the stored bcrypt hash
+export const verifyPassword = async (plainPassword, passwordHash) => {
+    return bcrypt.compare(plainPassword, passwordHash);
+};
